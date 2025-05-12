@@ -16,14 +16,25 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class ParameterResource extends Resource
 {
     protected static ?string $model = Parameter::class;
+    protected static ?string $navigationGroup = 'Configuración';
+    protected static ?int $navigationSort = 2;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
-
+    protected static ?string $navigationIcon = 'icon-parameter';
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                //
+                Forms\Components\TextInput::make('parameter')
+                    ->label('Parámetro')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('value')
+                    ->label('Valor')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('additional_value')
+                    ->label('Valor Adicional')
+                    ->maxLength(255),
             ]);
     }
 
@@ -31,7 +42,25 @@ class ParameterResource extends Resource
     {
         return $table
             ->columns([
-                //
+                Tables\Columns\TextColumn::make('parameter')
+                    ->label('Parámetro')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('value')
+                    ->label('Valor')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('additional_value')
+                    ->label('Valor Adicional')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Actualizado')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //
@@ -53,6 +82,12 @@ class ParameterResource extends Resource
         ];
     }
 
+    //Titulo traducido
+    public static function getLabel(): ?string
+    {
+        return 'Parametro';
+    }
+
     public static function getPages(): array
     {
         return [
@@ -62,3 +97,4 @@ class ParameterResource extends Resource
         ];
     }
 }
+

@@ -46,16 +46,19 @@ class SubjectResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('teacher_id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('teacher.full_name')
+                    ->label('Docente')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('subject')
+                    ->label('Materia')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Creado')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Actualizado')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

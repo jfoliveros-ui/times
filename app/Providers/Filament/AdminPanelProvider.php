@@ -23,14 +23,59 @@ class AdminPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
+
         return $panel
             ->default()
             ->id('admin')
             ->path('admin')
             ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => '#1230AE',
+
             ])
+            ->renderHook('panels::body.start', fn() => '
+                <style>
+                    .fi-sidebar{
+                        background-color: #1230AE !important; /*Cambio de color de la barra lateral */
+                    }
+                    .fi-sidebar-item-label{
+                        color: white !important; /*Cambio de color de texto */
+                    }
+                    .fi-sidebar-group-label{
+                        color: white !important; /*Cambio de color de texto de los grupos */
+                    }
+                    .fi-sidebar-item-icon{
+                        color: white !important; /*Cambio de color de iconos */
+                    }
+                    .fi-sidebar-item-active .fi-sidebar-item-icon{
+                        color: black !important; /*Cambio de color de iconos al hacer click */
+                    }
+                        .fi-sidebar-item-active .fi-sidebar-item-label{
+                        color: black !important; /*Cambio de color de texto al hacer click */
+                    }
+                    .fi-sidebar-item :hover .fi-sidebar-item-label{
+                        color: black !important; /*Cambio de color de texto al pasar el mouse */
+                    }
+                    .fi-sidebar-item :hover .fi-sidebar-item-icon{
+                        color: black !important; /*Cambio de color de texto al pasar el mouse */
+                    }
+                    .fc-h-event .fc-event-main {
+                        white-space: normal !important; /*salto de linea en el calendario */
+                    }
+                    .fi-layout {
+                        background-color: #EBF4F6;
+                    }
+                    a.fi-breadcrumbs-item-label:nth-child(1){
+                        color: #1230AE !important;
+                    }
+                    a.fi-breadcrumbs-item-label:nth-child(3){
+                        color: #1230AE !important;
+                    }
+                    svg.fi-breadcrumbs-item-separator:nth-child(1) {
+                        fill-color: black !important;
+                    }
+                </style>
+            ')
             ->font('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap')
             ->collapsibleNavigationGroups(false)
             ->sidebarCollapsibleOnDesktop()

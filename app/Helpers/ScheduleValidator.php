@@ -85,4 +85,43 @@ class ScheduleValidator
             ->persistent()
             ->send();
     }
+
+    public static function validarConflictosExtendido($teacherId, $cetap, $semester, $mode, $scheduleData): array
+{
+    $conflictDates = [];
+
+    foreach ($scheduleData as $entry) {
+        $date = $entry['date'];
+        $day = $entry['working_day'];
+
+        // CETAP
+        $cetapConflict = self::validarCetap($cetap, $date, $semester, $day);
+        if ($cetapConflict) {
+            $conflictDates[] = [
+                'date' => $date,
+                'cetap' => $cetapConflict->cetap,
+                'mode' => $cetapConflict->mode,
+                'subject' => $cetapConflict->subject ?? 'Desconocido',
+                'type' => 'cetap',
+            ];
+            continue;
+        }
+
+        // DOCENTE
+        $docenteConflict = self::validarDocente($teacherId, $date, $day, $mode, $cetap, $semester);
+        if ($docenteConflict) {
+            $conflictDates[] = [
+                'date' => $date,
+                'cetap' => $docenteConflict->cetap ?? 'Desconocido',
+                'subject' => $docenteConflict->subject ?? 'Desconocido',
+                'mode' => $docenteConflict->mode,
+                'semester'=> $semester,
+                'type' => 'docente',
+            ];
+        }
+    }
+
+    return $conflictDates;
+}
+
 }

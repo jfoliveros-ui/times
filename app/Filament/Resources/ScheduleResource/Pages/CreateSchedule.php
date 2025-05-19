@@ -3,88 +3,96 @@
 namespace App\Filament\Resources\ScheduleResource\Pages;
 
 use App\Filament\Resources\ScheduleResource;
-use Filament\Actions;
 use Filament\Resources\Pages\CreateRecord;
 use App\Helpers\ScheduleValidator;
 use Filament\Notifications\Notification;
 use App\Models\Schedule;
+use Carbon\Carbon;
 
 class CreateSchedule extends CreateRecord
 {
     protected static string $resource = ScheduleResource::class;
 
     protected function mutateFormDataBeforeCreate(array $data): array
-    {
-        $teacherId = $data['teacher_id'];
-        $day = $data['working_day'];
-        $mode = $data['mode'];
-        $cetap = $data['cetap'];
-        $asignature = $data['subject'];
-        $semester = $data['semester'];
-        $dates = $data['dates'];
+{
+    $teacherId = $data['teacher_id'];
+    $day = $data['working_day'];
+    $mode = $data['mode'];
+    $cetap = $data['cetap'];
+    $subject = $data['subject'];
+    $semester = $data['semester'];
+    $dates = $data['dates'];
 
-        $conflictDates = [];
+    $scheduleData = [];
 
-        foreach ($dates as $dateEntry) {
-            $date = $dateEntry['date'];
+    foreach ($dates as $dateEntry) {
+        $baseDate = Carbon::parse($dateEntry['date']);
 
-            // 1. Validar conflictos por CETAP
-            $cetapConflict = ScheduleValidator::validarCetap($cetap, $date, $semester, $day);
+        switch ($day) {
+            case 'Fin de Semana':
+                if ($baseDate->dayOfWeek === 5) { // viernes
+                    $scheduleData[] = ['date' => $baseDate->copy()->toDateString(), 'working_day' => 'Noche'];
+                    $scheduleData[] = ['date' => $baseDate->copy()->addDay()->toDateString(), 'working_day' => 'Mañana'];
+                    $scheduleData[] = ['date' => $baseDate->copy()->addDay()->toDateString(), 'working_day' => 'Tarde'];
+                    $scheduleData[] = ['date' => $baseDate->copy()->addDays(2)->toDateString(), 'working_day' => 'Mañana'];
+                }
+                break;
 
-            if ($cetapConflict) {
-                $conflictDates[] = [
-                    'date' => $date,
-                    'cetap' => $cetapConflict->cetap,
-                    'mode' => $cetapConflict->mode,
-                    'subject' => $cetapConflict->subject ?? 'Desconocido',
-                    'type' => 'cetap',
-                ];
+            case 'Viernes - Sábado':
+                if ($baseDate->dayOfWeek === 5) {
+                    $scheduleData[] = ['date' => $baseDate->copy()->toDateString(), 'working_day' => 'Noche'];
+                    $scheduleData[] = ['date' => $baseDate->copy()->addDay()->toDateString(), 'working_day' => 'Mañana'];
+                }
+                break;
 
-                continue;
-            }
+            case 'Sábado - Domingo':
+                if ($baseDate->dayOfWeek === 6) {
+                    $scheduleData[] = ['date' => $baseDate->copy()->toDateString(), 'working_day' => 'Tarde'];
+                    $scheduleData[] = ['date' => $baseDate->copy()->addDay()->toDateString(), 'working_day' => 'Mañana'];
+                }
+                break;
 
-            // 2. Validar conflictos por DOCENTE
-            $docenteConflict = ScheduleValidator::validarDocente($teacherId, $date, $day, $mode, $cetap, $semester);
-
-            if ($docenteConflict) {
-                $conflictDates[] = [
-                    'date' => $date,
-                    'cetap' => $docenteConflict->cetap ?? 'Desconocido',
-                    'subject' => $docenteConflict->subject ?? 'Desconocido',
-                    'mode' => $docenteConflict->mode,
-                    'semester'=> $semester,
-                    'type' => 'docente',
-                ];
-            }
+            default:
+                $scheduleData[] = ['date' => $baseDate->toDateString(), 'working_day' => $day];
         }
+    }
 
-        if (!empty($conflictDates)) {
-            ScheduleValidator::notificarConflictos($conflictDates, $mode, $day);
-            $this->halt();
-        }
+    // Validar los bloques generados
+    $conflictDates = ScheduleValidator::validarConflictosExtendido(
+        $teacherId,
+        $cetap,
+        $semester,
+        $mode,
+        $scheduleData
+    );
 
-        foreach ($dates as $dateEntry) {
-            $date = $dateEntry['date'];
-
-            Schedule::create([
-                'teacher_id' => $teacherId,
-                'date' => $date,
-                'working_day' => $day,
-                'cetap' => $cetap,
-                'mode' => $mode,
-                'subject' => $asignature,
-                'semester' => $semester,
-            ]);
-
-            Notification::make()
-                ->title('Asignación de Horarios')
-                ->body("Se ha asignado la asignatura {$asignature} con modalidad {$mode} el día {$date} en la jornada {$day}.")
-                ->info()
-                ->persistent()
-                ->send();
-        }
-
-        $this->form->fill([]);
+    if (!empty($conflictDates)) {
+        ScheduleValidator::notificarConflictos($conflictDates, $mode, $day);
         $this->halt();
     }
+
+    // Crear los horarios
+    foreach ($scheduleData as $item) {
+        Schedule::create([
+            'teacher_id' => $teacherId,
+            'date' => $item['date'],
+            'working_day' => $item['working_day'],
+            'cetap' => $cetap,
+            'mode' => $mode,
+            'subject' => $subject,
+            'semester' => $semester,
+        ]);
+
+        Notification::make()
+            ->title('Asignación de Horarios')
+            ->body("Asignado: {$subject}, {$mode}, {$item['date']} - {$item['working_day']}")
+            ->info()
+            ->persistent()
+            ->send();
+    }
+
+    $this->form->fill([]);
+    $this->halt();
+}
+
 }

@@ -37,12 +37,13 @@ class CalendarWidget extends FullCalendarWidget
             // Filtrar eventos por docente y por año completo
             $events = Schedule::whereYear('date', $currentYear)
                 ->where('teacher_id', $this->selectedSchedule)
-                ->with('teacher')
+                ->with(['teacher', 'subject']) // Agregar la relación subject
                 ->get()
                 ->map(function ($schedule) {
+                   
                     return [
                         'id' => $schedule->id,
-                        'title' => $schedule->working_day . ' - ' .  $schedule->cetap . ' - ' .  $schedule->mode,
+                        'title' => $schedule->working_day . ' - ' . $schedule->cetap . ' - ' . $schedule->mode . ' - ' . ($schedule->subject ?? 'Sin asignatura'),
                         'start' => $schedule->date,
                         'end' => $schedule->date,
                     ];

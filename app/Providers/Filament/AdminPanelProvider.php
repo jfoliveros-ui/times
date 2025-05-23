@@ -62,6 +62,9 @@ class AdminPanelProvider extends PanelProvider
                     .fc-h-event .fc-event-main {
                         white-space: normal !important; /*salto de linea en el calendario */
                     }
+                        .filament-fullcalendar {
+                        --fc-small-font-size : 0.65em !important; /*salto de linea en el calendario */
+                    }
                     .fi-layout {
                         background-color: #EBF4F6;
                     }

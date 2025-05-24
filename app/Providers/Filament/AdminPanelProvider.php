@@ -33,8 +33,12 @@ class AdminPanelProvider extends PanelProvider
                 'primary' => '#1230AE',
 
             ])
+            ->brandLogo(asset('img/linux.svg'))
             ->renderHook('panels::body.start', fn() => '
                 <style>
+                    .fi-logo {
+                        height: 3.5rem !important;
+                    }
                     .fi-sidebar{
                         background-color: #1230AE !important; /*Cambio de color de la barra lateral */
                     }

@@ -19,7 +19,7 @@ class ParameterResource extends Resource
     protected static ?string $navigationGroup = 'Configuración';
     protected static ?int $navigationSort = 2;
 
-    protected static ?string $navigationIcon = 'icon-parameter';
+    protected static ?string $navigationIcon = 'icon-param';
     public static function form(Form $form): Form
     {
         return $form

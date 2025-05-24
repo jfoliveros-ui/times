@@ -25,7 +25,7 @@ class TeacherResource extends Resource
     protected static ?string $navigationGroup = 'Usuarios';
 
     protected static ?int $navigationSort = 5;
-    protected static ?string $navigationIcon = 'icon-crear_doc';
+    protected static ?string $navigationIcon = 'icon-docente';
     public static function getNavigationBadge(): ?string
     {
         return static::getModel()::count();

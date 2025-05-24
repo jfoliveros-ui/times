@@ -10,7 +10,7 @@ class Calendar extends Page
     protected static ?string $navigationGroup = 'Consultas';
     protected static ?int $navigationSort = 3;
     protected static string $view = 'filament.pages.calendar';
-    protected static ?string $navigationIcon = 'icon-calendar';
+    protected static ?string $navigationIcon = 'icon-calendarios';
 
     // Cambiar el título de la página
     protected static ?string $title = 'Consulta de Horarios';

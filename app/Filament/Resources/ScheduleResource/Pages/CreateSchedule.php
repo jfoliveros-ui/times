@@ -93,7 +93,7 @@ class CreateSchedule extends CreateRecord
                 ->title('Asignación de Horarios')
                 ->body("Asignado: {$subject}, {$mode}, {$item['date']} - {$item['working_day']}")
                 ->info()
-                ->persistent()
+                ->seconds(5)
                 ->send();
         }
 

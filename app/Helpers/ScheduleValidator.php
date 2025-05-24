@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Models\Schedule;
 use Filament\Notifications\Notification;
 use Carbon\Carbon;
+use Filament\Notifications\Actions\Action;
 
 class ScheduleValidator
 {
@@ -83,6 +84,19 @@ class ScheduleValidator
             ->body($mensaje)
             ->danger()
             ->persistent()
+            ->actions([
+                Action::make('Ver Calendario')
+                ->button()
+                ->color('success')
+                ->url(route('filament.admin.pages.calendar')) // Aquí defines la ruta o recurso
+                ->openUrlInNewTab(true) // Redirige otra pestaña
+                ->close(),
+                Action::make('Cerrar')
+                ->button()
+                ->label('Cerrar')
+                ->color('danger')
+                ->close(),
+                ])
             ->send();
     }
 

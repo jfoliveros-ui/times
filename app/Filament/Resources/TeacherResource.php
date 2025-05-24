@@ -16,6 +16,7 @@ use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
 
 class TeacherResource extends Resource
 {
@@ -170,6 +171,12 @@ class TeacherResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->headerActions([
+                ExportBulkAction::make() //exportar en Excel
+                    ->label('Exportar')
+                    ->color('success')
+                    ->icon('icon-excel'), // icono opcional
             ]);
     }
 

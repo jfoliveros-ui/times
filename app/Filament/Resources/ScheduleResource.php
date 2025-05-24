@@ -16,6 +16,8 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Get;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+
 
 class ScheduleResource extends Resource
 {
@@ -176,6 +178,12 @@ class ScheduleResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->headerActions([
+                ExportBulkAction::make() //exportar en Excel
+                    ->label('Exportar')
+                    ->color('success')
+                    ->icon('icon-excel'), // icono opcional
             ]);
     }
 
@@ -201,4 +209,3 @@ class ScheduleResource extends Resource
         ];
     }
 }
-

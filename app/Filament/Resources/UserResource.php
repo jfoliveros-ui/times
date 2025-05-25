@@ -13,6 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Hash;
+use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
+
 
 class UserResource extends Resource
 {
@@ -40,8 +43,8 @@ class UserResource extends Resource
                     ->label('Contraseña')
                     ->password()
                     ->required()
-                    ->dehydrateStateUsing(fn ($state) => Hash::make($state))
-                    ->dehydrated(fn ($state) => filled($state))
+                    ->dehydrateStateUsing(fn($state) => Hash::make($state))
+                    ->dehydrated(fn($state) => filled($state))
                     ->maxLength(255),
             ]);
     }
@@ -79,6 +82,15 @@ class UserResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
+            ])
+            ->headerActions([
+                ExportBulkAction::make() //exportar en Excel
+                    ->exports([
+                        ExcelExport::make()->fromTable()->askForFilename(label: 'Nombre del Archivo:'),// Nombre del Archivo
+                    ])
+                    ->label('Exportar')
+                    ->color('success')
+                    ->icon('icon-excel'), // icono opcional
             ]);
     }
 

@@ -17,7 +17,7 @@ use Filament\Forms\Components\FileUpload;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
-
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 class TeacherResource extends Resource
 {
     protected static ?string $model = Teacher::class;
@@ -174,6 +174,9 @@ class TeacherResource extends Resource
             ])
             ->headerActions([
                 ExportBulkAction::make() //exportar en Excel
+                    ->exports([
+                        ExcelExport::make()->fromTable()->askForFilename(label: 'Nombre del Archivo:'),//nombre del archivo
+                    ])
                     ->label('Exportar')
                     ->color('success')
                     ->icon('icon-excel'), // icono opcional

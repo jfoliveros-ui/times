@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Forms\Get;
 use pxlrbt\FilamentExcel\Actions\Tables\ExportBulkAction;
+use pxlrbt\FilamentExcel\Exports\ExcelExport;
 
 
 class ScheduleResource extends Resource
@@ -183,6 +184,9 @@ class ScheduleResource extends Resource
             ])
             ->headerActions([
                 ExportBulkAction::make() //exportar en Excel
+                    ->exports([
+                        ExcelExport::make()->fromTable()->askForFilename(label: 'Nombre del Archivo:'),//nombre del archivo
+                    ])
                     ->label('Exportar')
                     ->color('success')
                     ->icon('icon-excel'), // icono opcional

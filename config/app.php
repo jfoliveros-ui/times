@@ -194,6 +194,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\Filament\AdminPanelProvider::class,
+        App\Providers\Filament\CetapPanelProvider::class,
+        App\Providers\Filament\TeacherPanelProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],

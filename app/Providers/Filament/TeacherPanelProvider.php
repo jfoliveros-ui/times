@@ -17,29 +17,25 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\AuthenticateSession;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
-use Saade\FilamentFullCalendar\FilamentFullCalendarPlugin;
 
-class AdminPanelProvider extends PanelProvider
+class TeacherPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
-
         return $panel
-            ->default()
-            ->id('admin')
-            ->path('admin')
-            ->login()
+            ->id('teacher')
+            ->path('teacher')
+                        ->login()
             ->colors([
-                'primary' => '#1230AE',
+                'primary' => '#051367',
             ])
-            ->brandLogo(asset('img/linux.svg'))
             ->renderHook('panels::body.start', fn() => '
                 <style>
                     .fi-logo {
                         height: 3.5rem !important;
                     }
                     .fi-sidebar{
-                        background-color: #1230AE !important; /*Cambio de color de la barra lateral */
+                        background-color: #051367 !important; /*Cambio de color de la barra lateral */
                     }
                     .fi-sidebar-item-label{
                         color: white !important; /*Cambio de color de texto */
@@ -69,13 +65,13 @@ class AdminPanelProvider extends PanelProvider
                         --fc-small-font-size : 0.65em !important; /*salto de linea en el calendario */
                     }
                     .fi-layout {
-                        background-color: #EBF4F6;
+                        background-color: #DFF6FF;
                     }
                     a.fi-breadcrumbs-item-label:nth-child(1){
-                        color: #1230AE !important;
+                        color: #051367 !important;
                     }
                     a.fi-breadcrumbs-item-label:nth-child(3){
-                        color: #1230AE !important;
+                        color: #051367 !important;
                     }
                     svg.fi-breadcrumbs-item-separator:nth-child(1) {
                         fill-color: black !important;
@@ -84,16 +80,16 @@ class AdminPanelProvider extends PanelProvider
             ')
             ->font('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap')
             ->collapsibleNavigationGroups(false)
-            ->sidebarCollapsibleOnDesktop()
-            ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
-            ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
+            ->brandLogo(asset('img/linux.svg'))
+            ->discoverResources(in: app_path('Filament/Teacher/Resources'), for: 'App\\Filament\\Teacher\\Resources')
+            ->discoverPages(in: app_path('Filament/Teacher/Pages'), for: 'App\\Filament\\Teacher\\Pages')
             ->pages([
                 Pages\Dashboard::class,
             ])
-            ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\\Filament\\Widgets')
+            ->discoverWidgets(in: app_path('Filament/Teacher/Widgets'), for: 'App\\Filament\\Teacher\\Widgets')
             ->widgets([
                 Widgets\AccountWidget::class,
-                //Widgets\FilamentInfoWidget::class,
+                Widgets\FilamentInfoWidget::class,
             ])
             ->middleware([
                 EncryptCookies::class,
@@ -108,7 +104,6 @@ class AdminPanelProvider extends PanelProvider
             ])
             ->authMiddleware([
                 Authenticate::class,
-            ])
-            ->plugins([FilamentFullCalendarPlugin::make()]);
+            ]);
     }
 }

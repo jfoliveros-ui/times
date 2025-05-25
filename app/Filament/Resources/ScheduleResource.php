@@ -189,7 +189,7 @@ class ScheduleResource extends Resource
                     ])
                     ->label('Exportar')
                     ->color('success')
-                    ->icon('icon-excel'), // icono opcional
+                    ->icon('heroicon-s-document-arrow-down'), // icono opcional
             ]);
     }
 

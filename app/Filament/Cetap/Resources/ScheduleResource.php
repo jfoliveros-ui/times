@@ -82,7 +82,8 @@ class ScheduleResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('cetap')
                     ->label('Centro de Tutoría')
-                    ->searchable(),
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('semester')
                     ->label('Semestre')
                     ->searchable(),

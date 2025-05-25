@@ -96,8 +96,8 @@ class ScheduleResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('date')
                     ->label('Fecha')
-                    ->date('d/m')
-                    ->sortable(),
+                    ->sortable()
+                    ->disabled(),
                 Tables\Columns\TextColumn::make('working_day')
                     ->label('Jornada')
                     ->searchable(),

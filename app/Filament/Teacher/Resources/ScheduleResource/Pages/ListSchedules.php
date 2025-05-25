@@ -16,4 +16,11 @@ class ListSchedules extends ListRecords
            // Actions\CreateAction::make(),
         ];
     }
+
+    public function getTitle(): string
+    {
+        $docente = auth()->user()?->name ?? 'Docente';
+
+        return "Asignaciones Docente: {$docente}";
+    }
 }

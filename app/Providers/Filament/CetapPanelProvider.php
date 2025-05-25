@@ -27,7 +27,7 @@ class CetapPanelProvider extends PanelProvider
             ->path('cetap')
             ->login()
             ->colors([
-                'primary' => '#051367',
+                'primary' => '#132C33',
             ])
             ->renderHook('panels::body.start', fn() => '
                 <style>
@@ -35,7 +35,7 @@ class CetapPanelProvider extends PanelProvider
                         height: 3.5rem !important;
                     }
                     .fi-sidebar{
-                        background-color: #051367 !important; /*Cambio de color de la barra lateral */
+                        background-color: #132C33 !important; /*Cambio de color de la barra lateral */
                     }
                     .fi-sidebar-item-label{
                         color: white !important; /*Cambio de color de texto */
@@ -65,17 +65,20 @@ class CetapPanelProvider extends PanelProvider
                         --fc-small-font-size : 0.65em !important; /*salto de linea en el calendario */
                     }
                     .fi-layout {
-                        background-color: #DFF6FF;
+                        background-color: #D8E3E7;
                     }
                     a.fi-breadcrumbs-item-label:nth-child(1){
-                        color: #051367 !important;
+                        color: #132C33 !important;
                     }
                     a.fi-breadcrumbs-item-label:nth-child(3){
-                        color: #051367 !important;
+                        color: #132C33 !important;
                     }
                     svg.fi-breadcrumbs-item-separator:nth-child(1) {
                         fill-color: black !important;
                     }
+                    .fi-header-heading {
+                        font-size: 1.2rem;
+                        }
                 </style>
             ')
             ->font('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap')

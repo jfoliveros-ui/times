@@ -156,6 +156,8 @@ class ScheduleResource extends Resource
                         'Asignada' => 'warning',
                         'Cumplida' => 'success',
                         'No Cumplida' => 'danger',
+                        'Aceptada' => 'success',
+                        'Rechazada' => 'danger'
                     }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Creado')

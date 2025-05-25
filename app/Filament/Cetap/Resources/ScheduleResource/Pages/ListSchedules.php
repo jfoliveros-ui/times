@@ -19,8 +19,16 @@ class ListSchedules extends ListRecords
     }
 
     protected function getTableQuery(): Builder
-{
-    return parent::getTableQuery()
-        ->whereIn('commission', ['No Cumplida', 'Cumplida', 'Aceptada']);
-}
+    {
+        return parent::getTableQuery()
+            ->whereIn('commission', ['No Cumplida', 'Cumplida', 'Aceptada']);
+    }
+
+    public function getTitle(): string
+    {
+        // Asumiendo que el usuario autenticado tiene un CETAP relacionado
+        $cetap = auth()->user()?->name ?? 'CETAP no definido';
+
+        return "Asignaciones Centro de Tutoría: $cetap";
+    }
 }

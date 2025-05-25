@@ -30,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             ->colors([
-                'primary' => '#1230AE',
+                'primary' => '#005792',
             ])
             ->brandLogo(asset('img/linux.svg'))
             ->renderHook('panels::body.start', fn() => '
@@ -39,7 +39,7 @@ class AdminPanelProvider extends PanelProvider
                         height: 3.5rem !important;
                     }
                     .fi-sidebar{
-                        background-color: #1230AE !important; /*Cambio de color de la barra lateral */
+                        background-color: #005792 !important; /*Cambio de color de la barra lateral */
                     }
                     .fi-sidebar-item-label{
                         color: white !important; /*Cambio de color de texto */
@@ -69,17 +69,20 @@ class AdminPanelProvider extends PanelProvider
                         --fc-small-font-size : 0.65em !important; /*salto de linea en el calendario */
                     }
                     .fi-layout {
-                        background-color: #EBF4F6;
+                        background-color: #F6F5F5;
                     }
                     a.fi-breadcrumbs-item-label:nth-child(1){
-                        color: #1230AE !important;
+                        color: #005792 !important;
                     }
                     a.fi-breadcrumbs-item-label:nth-child(3){
-                        color: #1230AE !important;
+                        color: #005792 !important;
                     }
                     svg.fi-breadcrumbs-item-separator:nth-child(1) {
                         fill-color: black !important;
                     }
+                    .fi-header-heading {
+                        font-size: 1.2rem;
+                        }
                 </style>
             ')
             ->font('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap')

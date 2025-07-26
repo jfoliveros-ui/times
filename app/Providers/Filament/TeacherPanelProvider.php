@@ -27,7 +27,7 @@ class TeacherPanelProvider extends PanelProvider
             ->path('teacher')
             ->login()
             ->colors([
-                'primary' => '#393E46',
+                'primary' => '#176B87',
             ])
             ->renderHook('panels::body.start', fn() => '
                 <style>
@@ -35,7 +35,7 @@ class TeacherPanelProvider extends PanelProvider
                         height: 3.5rem !important;
                     }
                     .fi-sidebar{
-                        background-color: #393E46 !important; /*Cambio de color de la barra lateral */
+                        background-color: #176B87 !important; /*Cambio de color de la barra lateral */
                     }
                     .fi-sidebar-item-label{
                         color: white !important; /*Cambio de color de texto */
@@ -65,13 +65,13 @@ class TeacherPanelProvider extends PanelProvider
                         --fc-small-font-size : 0.65em !important; /*salto de linea en el calendario */
                     }
                     .fi-layout {
-                        background-color: #EEEEEE;
+                        background-color: #EEF5FF;
                     }
                     a.fi-breadcrumbs-item-label:nth-child(1){
-                        color: #393E46 !important;
+                        color: #176B87 !important;
                     }
                     a.fi-breadcrumbs-item-label:nth-child(3){
-                        color: #393E46 !important;
+                        color: #176B87 !important;
                     }
                     svg.fi-breadcrumbs-item-separator:nth-child(1) {
                         fill-color: black !important;
